@@ -1,6 +1,6 @@
-import db.access as db
 from flask import Flask, jsonify, redirect, render_template, request
-import storage.b2 as b2
+import labelling_web_app.db.access as db
+import labelling_web_app.storage.b2 as b2
 
 app = Flask(__name__)
 
