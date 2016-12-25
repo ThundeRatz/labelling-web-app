@@ -1,4 +1,7 @@
-__pycache__
 environment.sh
 
+__pycache__/
+dist/
 venv/
+
+*.egg-info/
