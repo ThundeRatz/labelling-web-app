@@ -10,7 +10,7 @@ from xml.etree import ElementTree
 def get_new_labels():
     conn = Connection()
     with conn.cursor() as cursor:
-        cursor.execute('DELETE FROM new_labels WHERE id IN (SELECT id FROM new_labels LIMIT 20) RETURNING *')
+        cursor.execute('DELETE FROM new_labels WHERE id IN (SELECT id FROM new_labels LIMIT 10) RETURNING *')
         data = cursor.fetchall()
     conn.commit()
     conn.close()
@@ -50,8 +50,8 @@ def download_image(image_id):
 
 def main():
     # Ensure a clean state
-    assert not os.path.exists('voc-labels') and not os.path.exists('images'), ('Erase the voc-labels ' +
-        'and images folders to download new labels')
+    assert not os.path.exists('voc-labels') and not os.path.exists('images'), (
+        'Erase the voc-labels and images folders to download new labels')
     os.mkdir('voc-labels')
     os.mkdir('images')
     labels = itertools.groupby(sorted(get_new_labels(), key=lambda x: x[0]), lambda x: x[0])
@@ -60,6 +60,7 @@ def main():
         xml_tree = create_voc_tree(image_id, l[1])
         xml_tree.write(os.path.join('voc-labels', '{}.xml'.format(image_id)))
         download_image(image_id)
+
 
 if __name__ == '__main__':
     main()
