@@ -12,6 +12,7 @@ def get_new_labels():
     with conn.cursor() as cursor:
         cursor.execute('DELETE FROM new_labels WHERE id IN (SELECT id FROM new_labels LIMIT 20) RETURNING *')
         data = cursor.fetchall()
+    conn.commit()
     conn.close()
     return data
 
