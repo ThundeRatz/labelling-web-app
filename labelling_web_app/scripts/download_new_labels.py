@@ -1,7 +1,7 @@
 #!/bin/env python3
+from collections import defaultdict
 from labelling_web_app.db.connection import Connection
 import labelling_web_app.storage.b2 as b2
-import itertools
 import os
 from urllib.request import urlretrieve
 from xml.etree import ElementTree
@@ -35,7 +35,7 @@ def create_voc_tree(image_id, labels):
         ElementTree.SubElement(obj, 'truncated').text = '0'
         ElementTree.SubElement(obj, 'difficult').text = '0'
         bb = ElementTree.SubElement(obj, 'bndbox')
-        x_center, y_center, width, height = (label[x] for x in range(1, 5))
+        x_center, y_center, width, height = label
         ElementTree.SubElement(bb, 'xmin').text = str(round((x_center - width / 2) * 640))
         ElementTree.SubElement(bb, 'ymin').text = str(round((y_center - height / 2) * 480))
         ElementTree.SubElement(bb, 'xmax').text = str(round((x_center + width / 2) * 640))
@@ -54,10 +54,17 @@ def main():
         'Erase the voc-labels and images folders to download new labels')
     os.mkdir('voc-labels')
     os.mkdir('images')
-    labels = itertools.groupby(sorted(get_new_labels(), key=lambda x: x[0]), lambda x: x[0])
-    for l in labels:
-        image_id = l[0]
-        xml_tree = create_voc_tree(image_id, l[1])
+
+    labels = defaultdict(list)
+    for line in get_new_labels():
+        labels[line[0]].append(line[1:])
+
+    print('Picked labels:')
+    for image_id, boxes in labels.items():
+        print('{}: {}'.format(image_id, boxes))
+
+    for image_id, boxes in labels.items():
+        xml_tree = create_voc_tree(image_id, boxes)
         xml_tree.write(os.path.join('voc-labels', '{}.xml'.format(image_id)))
         download_image(image_id)
 
