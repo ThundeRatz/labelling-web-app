@@ -37,8 +37,8 @@ def create_voc_tree(image_id, labels):
         bb = ElementTree.SubElement(obj, 'bndbox')
         x_center, y_center, width, height = (label[x] for x in range(1, 5))
         ElementTree.SubElement(bb, 'xmin').text = str(round((x_center - width / 2) * 640))
-        ElementTree.SubElement(bb, 'xmax').text = str(round((x_center + width / 2) * 640))
         ElementTree.SubElement(bb, 'ymin').text = str(round((y_center - height / 2) * 480))
+        ElementTree.SubElement(bb, 'xmax').text = str(round((x_center + width / 2) * 640))
         ElementTree.SubElement(bb, 'ymax').text = str(round((y_center + height / 2) * 480))
     return ElementTree.ElementTree(root)
 
