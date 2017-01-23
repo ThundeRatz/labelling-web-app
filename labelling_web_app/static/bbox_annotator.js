@@ -86,7 +86,7 @@
       this.offset = this.pointer;
       this.refresh();
       this.selector.show();
-      $('body').css('cursor', 'crosshair');
+      $('body').css('cursor', 'url(https://s28.postimg.org/ktjmvslcd/cursor.png) 64 64, crosshair');
       return document.onselectstart = function() {
         return false;
       };
@@ -172,7 +172,7 @@
         annotator.annotator_element.css({
           "width": (options.width + annotator.border_width * 2) + 'px',
           "height": (options.height + annotator.border_width * 2) + 'px',
-          "cursor": "crosshair"
+          "cursor": "url(https://s28.postimg.org/ktjmvslcd/cursor.png) 64 64, crosshair"
         });
         annotator.image_frame.css({
           "background-image": "url('" + image_element.src + "')",
