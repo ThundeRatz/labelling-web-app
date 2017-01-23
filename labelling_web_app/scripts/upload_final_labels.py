@@ -1,4 +1,4 @@
-#!/bin/env python3
+#!/usr/bin/env python3
 from labelling_web_app.db.connection import Connection
 import os
 import sys

@@ -1,4 +1,4 @@
-#!/bin/env python3
+#!/usr/bin/env python3
 from collections import defaultdict
 from labelling_web_app.db.connection import Connection
 import labelling_web_app.storage.b2 as b2
