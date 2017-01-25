@@ -47,6 +47,9 @@ class B2:
             r = _safe_post(self._url, headers=headers, data=body)
             return r.json()['fileId']
 
+    def __init__(self):
+        self._auth = None
+
     def authorize_account(self, account_id, account_key):
         r = _safe_get('https://api.backblazeb2.com/b2api/v1/b2_authorize_account', auth=(account_id, account_key))
         data = r.json()
@@ -55,7 +58,8 @@ class B2:
                              downloadUrl=data['downloadUrl'], minimumPartSize=data['minimumPartSize'])
 
     def get_download_url(self, file_id):
-        return '{}/b2api/v1/b2_download_file_by_id?fileId={}'.format(self._auth.downloadUrl, file_id)
+        download_url = self._auth and self._auth.downloadUrl or os.environ['B2_DOWNLOAD_URL']
+        return '{}/b2api/v1/b2_download_file_by_id?fileId={}'.format(download_url, file_id)
 
     def get_uploader(self, bucket_id):
         r = _safe_post('{}/b2api/v1/b2_get_upload_url'.format(self._auth.apiUrl),

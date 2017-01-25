@@ -1,6 +1,7 @@
-#!/bin/env python3
+#!/usr/bin/env python3
 from labelling_web_app.db.connection import Connection
 import os
+import shutil
 import sys
 from xml.etree import ElementTree
 
@@ -47,6 +48,8 @@ def main(args):
             print('Uploading {}'.format(label))
             full_path = os.path.join(dirpath, label)
             upload_label_file(full_path)
+    shutil.rmtree('images')
+    shutil.rmtree('voc-labels')
 
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-#!/bin/env python3
+#!/usr/bin/env python3
 from collections import defaultdict
 from labelling_web_app.db.connection import Connection
 import labelling_web_app.storage.b2 as b2
@@ -10,7 +10,7 @@ from xml.etree import ElementTree
 def get_new_labels():
     conn = Connection()
     with conn.cursor() as cursor:
-        cursor.execute('DELETE FROM new_labels WHERE id IN (SELECT id FROM new_labels LIMIT 10) RETURNING *')
+        cursor.execute('DELETE FROM new_labels WHERE id IN (SELECT DISTINCT id FROM new_labels LIMIT 10) RETURNING *')
         data = cursor.fetchall()
     conn.commit()
     conn.close()
