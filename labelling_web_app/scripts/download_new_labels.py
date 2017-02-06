@@ -57,6 +57,9 @@ def main():
 
     labels = defaultdict(list)
     for line in get_new_labels():
+        if line[3] < 0.005 or line[4] < 0.005:
+            print('WARNING: Image {} has too small label, ignoring'.format(line[0]))
+            continue
         labels[line[0]].append(line[1:])
 
     print('Picked labels:')
