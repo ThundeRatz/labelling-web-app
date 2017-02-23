@@ -5,11 +5,13 @@ import sys
 
 CLASSES = ['cone']
 
+
 def parse_args():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('dir', help='Directory with images/ and labels/ folders')
     return parser.parse_args()
+
 
 def main(args):
     args = parse_args()
@@ -50,7 +52,7 @@ def main(args):
         'backup': backup_dir,
     }
     with open(os.path.join(directory, 'dataset.data'), 'w') as f:
-        f.writelines('{} = {}\n'.format(k, v) for k, v in config.items())     
+        f.writelines('{} = {}\n'.format(k, v) for k, v in config.items())
 
 if __name__ == '__main__':
     main(sys.argv)
