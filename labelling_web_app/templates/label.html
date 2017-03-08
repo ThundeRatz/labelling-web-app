@@ -16,6 +16,8 @@
       If you have questions, see the <a href="static/tutorial.html">tutorial</a>.
     </p>
 
+    <p>Number of images submitted: <a id="submission_count">0</a></p>
+
     <h2>Image</h2>
       <div id="bbox_annotator" style="text-align:center;"></div>
       <p class="image-caption">ID {{image_id}}</p>
@@ -36,6 +38,8 @@
       });
     });
 
+    var submits = 0;
+
     function doPost(data, onSuccess, onFailure) {
       $.ajax({
         type: 'POST',
@@ -45,12 +49,25 @@
         data: JSON.stringify(data),
         success: function(data) {
           location.reload(true);
+          submits++;
+          localStorage.setItem("submission_count", submits);
+          document.getElementById("submission_count").innerHTML = submits;
         },
         error: function(msg) {
           alert('Submitting failed');
           $('#submit-button').prop('disabled', false);
         }
       });
+    }
+
+    function initSubmits() {
+      var submitStr = localStorage.getItem("submission_count");
+      if (submitStr == undefined) {
+        localStorage.setItem("submission_count", 0);
+      } else {
+        submits = parseInt(submitStr);
+      }
+      document.getElementById("submission_count").innerHTML = submits;
     }
 
     function sendBoxes() {
@@ -72,6 +89,8 @@
       $('#submit-button').prop('disabled', true);
       doPost({'labels': labels, 'image_id': '{{image_id}}'});
     }
+
+    initSubmits();
     </script>
   </body>
 </html>
