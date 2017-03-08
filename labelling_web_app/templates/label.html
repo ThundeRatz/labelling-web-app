@@ -16,6 +16,8 @@
       If you have questions, see the <a href="static/tutorial.html">tutorial</a>.
     </p>
 
+    <p>Number of images submitted: <a id="submission_count">0</a></p>
+
     <h2>Image</h2>
       <div id="bbox_annotator" style="text-align:center;"></div>
       <p class="image-caption">ID {{image_id}}</p>
@@ -53,6 +55,19 @@
       });
     }
 
+    var submits = 0;
+
+    function initiateSubmits() {
+      var submitStr = localStorage.getItem("submission_count");
+      if (submitStr == undefined) {
+        localStorage.setItem("submission_count", 0);
+        submits = 0;
+      } else {
+        submits = parseInt(submitStr);
+      }
+      document.getElementById("submission_count").innerHTML = submits;
+    }
+
     function sendBoxes() {
       if (editor.entries.length == 0) {
         alert('Create selections before submitting');
@@ -71,7 +86,12 @@
 
       $('#submit-button').prop('disabled', true);
       doPost({'labels': labels, 'image_id': '{{image_id}}'});
+      submits++;
+      localStorage.setItem("submission_count", submits);
+      document.getElementById("submission_count").innerHTML = submits;
     }
+
+    initiateSubmits();
     </script>
   </body>
 </html>
