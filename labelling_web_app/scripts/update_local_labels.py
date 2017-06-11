@@ -4,6 +4,7 @@ from labelling_web_app.scripts.b2 import B2
 from labelling_web_app.db.connection import Connection
 import os
 from urllib.request import urlretrieve
+from urllib.error import URLError
 
 
 def db_fetch_all_labels():
@@ -42,10 +43,15 @@ def main(args):
     for image_id, boxes in labels.items():
         if not os.path.isfile(os.path.join(labels_dir, '{}.txt'.format(image_id))):
             print('Downloading new image {}'.format(image_id))
-            urlretrieve(b2.get_download_url(image_id), os.path.join(images_dir, '{}.png'.format(image_id)))
-            label_file = os.path.join(labels_dir, '{}.txt'.format(image_id))
-            with open(label_file, 'w') as f:
-                f.write('\n'.join(['0 {}'.format(' '.join(map(str, x))) for x in boxes]))
+            try:
+                urlretrieve(b2.get_download_url(image_id), os.path.join(images_dir, '{}.png'.format(image_id)))
+                label_file = os.path.join(labels_dir, '{}.txt'.format(image_id))
+                with open(label_file, 'w') as f:
+                    f.write('\n'.join(['0 {}'.format(' '.join(map(str, x))) for x in boxes]))
+            except URLError as e:
+                print("Failed to download image: {}".format(e.reason))
+                with open("invalid_image_ids.txt", 'a') as f:
+                    f.write("{}\n".format(image_id))
 
 
 if __name__ == '__main__':
