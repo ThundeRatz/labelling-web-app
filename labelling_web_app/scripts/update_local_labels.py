@@ -49,9 +49,9 @@ def main(args):
                 with open(label_file, 'w') as f:
                     f.write('\n'.join(['0 {}'.format(' '.join(map(str, x))) for x in boxes]))
             except URLError as e:
-                print("Failed to download image: {}".format(e.reason))
-                with open("invalid_image_ids.txt", 'a') as f:
-                    f.write("{}\n".format(image_id))
+                print('Failed to download image: {}'.format(e.reason))
+                with open('invalid_image_ids.txt', 'a') as f:
+                    f.write('{}\n'.format(image_id))
 
 
 if __name__ == '__main__':
