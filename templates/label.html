@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center pb-3">
+  <div class="d-block d-lg-none">
+    Oops... Your screen is too small!! Find a computer.
+  </div>
+
+  <div class="d-none d-lg-flex row no-gutters mt-4">
+    <div class="submission-count-wrapper col-4">Submissions: <span id="submission-count">0</span></div>
+    <div class="reset-button col-4" onclick="editor.clear_all()">RESET</div>
+    <div class="submit-button col-4" onclick="sendBoxes()">SUBMIT</div>
+    <div class="bbox_wrapper col-12">
+      <div id="loading-image">
+        <img src="{{ url_for('static', filename='loader.gif') }}" alt="">
+      </div>
+      <div
+        id="bbox-annotator"
+        class="mx-auto"
+        data-link="{{ image_link }}"
+        data-id="{{ image_id }}"
+      ></div>
+      <p class="image-caption">Image ID: {{ image_id }}</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='bbox_annotator.js') }}"></script>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}

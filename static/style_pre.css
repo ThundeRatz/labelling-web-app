@@ -1,0 +1,63 @@
+body {
+  background-color: white;
+  font-family: 'Lato', sans-serif;
+}
+
+#content {
+  background-color: #fafafa;
+  max-width: 1320px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+.navbar {
+  background-color: #011749;
+}
+
+.submit-button,
+.reset-button,
+.submission-count-wrapper {
+  color: white;
+  padding: 1rem 0;
+  font-size: 32pt;
+  vertical-align: center;
+}
+
+.submission-count-wrapper {
+  background-color: #011749;
+}
+
+.reset-button {
+  background-color: rgb(133, 0, 0);
+  transition: background-color 300ms ease;
+  cursor: pointer;
+}
+
+.reset-button:hover {
+  background-color: rgb(180, 0, 0);
+}
+
+.submit-button {
+  background-color: green;
+  transition: background-color 300ms ease;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: rgb(25, 151, 25);
+}
+
+#loading-image {
+  width: 1280px;
+  height: 960px;
+}
+
+#loading-image img {
+  position: relative;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+#tutorial .img-wrapper {
+  text-align: center;
+}
